@@ -3,9 +3,10 @@
 a php fuzzer class for web security research,
 ## Install
 ```
-composer require rickshang/fuzzer
+composer require rickshang/fuzzer @dev
 ```
 [packagist](https://packagist.org/packages/rickshang/fuzzer)
+
 ## Demo 
 
 ```php
