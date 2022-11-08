@@ -1,10 +1,11 @@
 # Fuzzer
 ## description
-a php fuzzer class for security research
+a php fuzzer class for web security research,
 ## Install
 ```
 composer require rickshang/fuzzer
 ```
+[packagist](https://packagist.org/packages/rickshang/fuzzer)
 ## Demo 
 
 ```php
