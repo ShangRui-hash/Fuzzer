@@ -25,8 +25,8 @@ class Inspector
             $ret['params'][$param->getName()] = [
                 'has_type' => $param->hasType(),
                 "type" =>[
-                    'toString'=>$reflect_type->__toString(),
-                    'allow_null'=>$reflect_type->allowsNull(),
+                    'toString'=>$reflect_type?$reflect_type->__toString():null,
+                    'allow_null'=>$reflect_type?$reflect_type->allowsNull():null,
                 ],
                 "is_callable" => $param->isCallable(),
                 "is_optional" => $is_optional,
