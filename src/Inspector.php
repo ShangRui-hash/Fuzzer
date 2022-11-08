@@ -4,31 +4,44 @@ namespace Rickshang\Fuzzer;
 
 class Inspector
 {
-    public static function func(string $function_name)
+    public static function func(string $function_name,$return=false)
     {
         $reflect_func = new \ReflectionFunction($function_name);
-        
-        
-        echo 'getName():' . $reflect_func->getName() . "\n";
-        echo "getParameters():\n";
+        $required_params = [];
+        $optional_params = [];
+        $ret = [
+            'function_name' . $reflect_func->getName(),
+        ];
+    
         $params = $reflect_func->getParameters();
         foreach ($params as $param) {
             $reflect_type =  $param->getType();
-            print_r([
-                "name:" => $param->getName(),
+            $is_optional = $param->isOptional();
+            if ($is_optional) {
+                $optional_params[] = $param->getName();
+            } else {
+                $required_params[] = $param->getName();
+            }
+            $ret['params'][$param->getName()] = [
                 'has_type' => $param->hasType(),
-                "type" => $reflect_type ? $reflect_type->__toString() : null,
-                "type allow null?" => $reflect_type ? $reflect_type->allowsNull() : null,
+                "type" =>[
+                    'toString'=>$reflect_type->__toString(),
+                    'allow_null'=>$reflect_type->allowsNull(),
+                ],
                 "is_callable" => $param->isCallable(),
-                "is_optional" => $param->isOptional(),
+                "is_optional" => $is_optional,
                 "position" => $param->getPosition(),
-                "declaring_function" => $param->getDeclaringFunction(),
                 "__toString" => $param->__toString(),
-            ]);
+            ];
         }
+        $ret['optional_params']=$optional_params;
+        $ret['required_params']=$required_params;
+        return print_r($ret,$return);
     }
 
-    public static function extension(string $extension_name,$return = false)
+
+
+    public static function extension(string $extension_name, $return = false)
     {
         $re = new \ReflectionExtension($extension_name);
         defined('UNDEFINED') || define('UNDEFINED', '%undefined%');
@@ -47,25 +60,6 @@ class Inspector
         $_data['isPersistent:'] = $re->isPersistent() ?: UNDEFINED;
         $_data['isTemporary:'] = $re->isTemporary() ?: UNDEFINED;
 
-        return print_r($_data,$return);
-    }
-
-    public static function get_all_internal_function(): array
-    {
-        $all_function_names = get_defined_functions();
-        return  $all_function_names['internal'];
-    }
-
-    public static function fuzz_all_internal_function(callable $callback)
-    {
-        $function_names = self::get_all_internal_function();
-        foreach ($function_names as $function_name) {
-            try {
-                $reflect_func = new \ReflectionFunction($function_name);
-                $callback($reflect_func);
-            } catch (\Throwable $e) {
-                printf("%s failed,err:%s", $function_name, $e);
-            }
-        }
+        return print_r($_data, $return);
     }
 }
