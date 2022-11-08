@@ -48,10 +48,10 @@ class Fuzzer
         return  $all_function_names['internal'];
     }
 
-    public static function get_all_one_param_internal_function():array 
-    {
+    // public static function get_all_one_param_internal_function():array 
+    // {
 
-    }
+    // }
 
     public static function fuzz_all_internal_function(callable $callback)
     {
