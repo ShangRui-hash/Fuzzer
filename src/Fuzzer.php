@@ -32,11 +32,7 @@ class Fuzzer
         return $chars;
     }
 
-    public static function get_all_internal_function(): array
-    {
-        $all_function_names = get_defined_functions();
-        return  $all_function_names['internal'];
-    }
+  
 
     public function run($callback)
     {
@@ -47,16 +43,5 @@ class Fuzzer
 
 
 
-    public static function fuzz_all_internal_function(callable $callback)
-    {
-        $function_names = self::get_all_internal_function();
-        foreach ($function_names as $function_name) {
-            try {
-                $reflect_func = new \ReflectionFunction($function_name);
-                $callback($reflect_func);
-            } catch (\Throwable $e) {
-                printf("%s failed,err:%s", $function_name, $e);
-            }
-        }
-    }
+
 }
