@@ -1,0 +1,16 @@
+{
+    "name": "rickshang/fuzzer",
+    "description": "a php fuzzer class for security research",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Rickshang\\Fuzzer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "无在无不在"
+        }
+    ],
+    "require": {}
+}
