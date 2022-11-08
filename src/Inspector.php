@@ -6,7 +6,8 @@ class Inspector
 {
 
     public static function char(string $char):string{
-        return sprintf("hex: %s char: %s urlencoded: %s", bin2hex($char), $char,urlencode($char));
+        
+        return sprintf("ord:%d mb_ord:%d hex: %s char: %s urlencoded: %s",ord($char),mb_ord($char), bin2hex($char), $char,urlencode($char));
     }
 
     public static function func(string $function_name, $return = false): array
