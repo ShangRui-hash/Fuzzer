@@ -10,7 +10,7 @@ class Inspector
         $required_params = [];
         $optional_params = [];
         $ret = [
-            'function_name' . $reflect_func->getName(),
+            'function_name' =>$reflect_func->getName(),
         ];
     
         $params = $reflect_func->getParameters();
