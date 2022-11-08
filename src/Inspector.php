@@ -4,6 +4,11 @@ namespace Rickshang\Fuzzer;
 
 class Inspector
 {
+
+    public static function char(string $char){
+        echo sprintf("hex: %s char: %s \n", bin2hex($char), $char);
+    }
+    
     public static function func(string $function_name, $return = false): array
     {
         $reflect_func = new \ReflectionFunction($function_name);

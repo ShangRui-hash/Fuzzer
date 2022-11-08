@@ -33,14 +33,13 @@ class Fuzzer
     }
 
 
-
     public function run($callback)
     {
         foreach ($this->payloads as $payload) {
             $callback($payload);
         }
     }
-    
+
     // 获取所有内置函数
     public static function get_all_internal_function(): array
     {
