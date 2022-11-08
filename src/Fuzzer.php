@@ -32,7 +32,7 @@ class Fuzzer
         return $chars;
     }
 
-  
+
 
     public function run($callback)
     {
@@ -40,19 +40,35 @@ class Fuzzer
             $callback($payload);
         }
     }
-
-
+    
+    // 获取所有内置函数
     public static function get_all_internal_function(): array
     {
         $all_function_names = get_defined_functions();
         return  $all_function_names['internal'];
     }
+    
+    // 判断一个函数是否是单参数函数
+    public static function is_one_param_function($function_name)
+    {
+        $funcinfo = Inspector::func($function_name,true);
+        return count($funcinfo['required_params']) == 1 || (count($funcinfo['required_params']) == 0 && count($funcinfo['optional_params']) == 1);
+    }
 
-    // public static function get_all_one_param_internal_function():array 
-    // {
+    // 获取所有单参数函数
+    public static function get_all_one_param_internal_function(): array
+    {
+        $one_param_function_names = [];
+        $function_names = self::get_all_internal_function();
+        foreach ($function_names as $function_name) {
+            if (self::is_one_param_function($function_name)) {
+                $one_param_function_names[] = $function_name;
+            }
+        }
+        return $one_param_function_names;
+    }
 
-    // }
-
+    // fuzz所有内置函数
     public static function fuzz_all_internal_function(callable $callback)
     {
         $function_names = self::get_all_internal_function();
@@ -65,7 +81,4 @@ class Fuzzer
             }
         }
     }
-
-
-
 }
