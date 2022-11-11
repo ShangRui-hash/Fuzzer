@@ -15,7 +15,7 @@ class Inspector
 
     public static function func($function, $return = false): array
     {
-        if($function instanceof \ReflectionFunction){
+        if($function instanceof \ReflectionFunction || $function instanceof \ReflectionMethod){
             $reflect_func = $function;
         }else{
             $reflect_func = new \ReflectionFunction($function);
