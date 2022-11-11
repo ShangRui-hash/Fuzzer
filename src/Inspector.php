@@ -2,17 +2,24 @@
 
 namespace Rickshang\Fuzzer;
 
+use ReflectionFunction;
+
 class Inspector
 {
 
-    public static function char(string $char):string{
-        
-        return sprintf("ord:%d mb_ord:%d hex: %s char: %s urlencoded: %s",ord($char),mb_ord($char), bin2hex($char), $char,urlencode($char));
+    public static function char(string $char): string
+    {
+
+        return sprintf("ord:%d mb_ord:%d hex: %s char: %s urlencoded: %s", ord($char), mb_ord($char), bin2hex($char), $char, urlencode($char));
     }
 
-    public static function func(string $function_name, $return = false): array
+    public static function func($function, $return = false): array
     {
-        $reflect_func = new \ReflectionFunction($function_name);
+        if($function instanceof \ReflectionFunction){
+            $reflect_func = $function;
+        }else{
+            $reflect_func = new \ReflectionFunction($function);
+        }
         $required_params = [];
         $optional_params = [];
         $ret = [
@@ -21,7 +28,7 @@ class Inspector
 
         $params = $reflect_func->getParameters();
         foreach ($params as $param) {
-            $reflect_type =  $param->getType();
+            $reflect_type = $param->getType();
             $is_optional = $param->isOptional();
             if ($is_optional) {
                 $optional_params[] = $param->getName();
